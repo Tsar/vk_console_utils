@@ -55,10 +55,10 @@ def auth_user(email, password, client_id, scope, opener):
           raise RuntimeError("Something wrong")
     parser.params["email"] = email
     parser.params["pass"] = password
-    if parser.method == "POST":
+    if parser.method.upper() == "POST":
         response = opener.open(parser.url, urllib.parse.urlencode(parser.params).encode('utf-8'))
     else:
-        raise NotImplementedError("Method '%s'" % params.method)
+        raise NotImplementedError("Method '%s'" % parser.method)
     return response.read(), response.geturl()
 
 def give_access(doc, opener):
@@ -67,7 +67,7 @@ def give_access(doc, opener):
     parser.close()
     if not parser.form_parsed or parser.url is None:
           raise RuntimeError("Something wrong")
-    if parser.method == "POST":
+    if parser.method.upper() == "POST":
         response = opener.open(parser.url, urllib.parse.urlencode(parser.params).encode('utf-8'))
     else:
         raise NotImplementedError("Method '%s'" % params.method)
